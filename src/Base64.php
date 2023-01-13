@@ -20,6 +20,7 @@ class Base64 implements Rule
 
 	/**
 	 * @inheritDoc
+	 * @codeCoverageIgnore
 	 */
 	public function message()
 	{

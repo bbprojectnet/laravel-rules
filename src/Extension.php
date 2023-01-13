@@ -17,6 +17,7 @@ class Extension implements Rule
 	 * Create a new rule instance
 	 *
 	 * @param array<int, string> $allowedExtensions
+	 * @return void
 	 */
 	public function __construct(array $allowedExtensions)
 	{
@@ -39,6 +40,7 @@ class Extension implements Rule
 
 	/**
 	 * @inheritDoc
+	 * @codeCoverageIgnore
 	 */
 	public function message()
 	{

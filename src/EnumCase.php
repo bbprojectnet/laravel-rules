@@ -4,6 +4,7 @@ namespace BBProjectNet\LaravelRules;
 
 use Illuminate\Contracts\Validation\Rule;
 use InvalidArgumentException;
+use UnitEnum;
 
 class EnumCase implements Rule
 {
@@ -17,23 +18,30 @@ class EnumCase implements Rule
 	/**
 	 * Create a new rule instance
 	 *
-	 * @param string|class-string|object|array<int, object> $enum
+	 * @param class-string<\UnitEnum>|\UnitEnum|array<int, \UnitEnum> $enum
 	 * @return void
 	 */
-	public function __construct(string|object|array $enum)
+	public function __construct(string|UnitEnum|array $enum)
 	{
 		if (is_string($enum)) {
 			if (! enum_exists($enum)) {
-				throw new InvalidArgumentException('Argument #1 ($enum) enum "' . $enum . '" not found'); // @codeCoverageIgnore
+				throw new InvalidArgumentException('Argument #1 ($enum) enum "' . $enum . '" not found');
 			}
 
 			$enum = $enum::cases();
 		}
-		elseif (is_object($enum)) {
+		elseif ($enum instanceof UnitEnum) {
 			$enum = [$enum];
 		}
+		else {
+			foreach ($enum as $entry) {
+				if (! $entry instanceof UnitEnum) {
+					throw new InvalidArgumentException('Argument #1 ($enum) contains not enum value');
+				}
+			}
+		}
 
-		$this->allowedValues = array_filter(array_map(fn (object $case) => $case?->value, $enum));
+		$this->allowedValues = array_filter(array_map(fn (UnitEnum $case) => $case?->value, $enum));
 	}
 
 	/**
@@ -41,11 +49,16 @@ class EnumCase implements Rule
 	 */
 	public function passes($attribute, $value)
 	{
+		if ($value instanceof UnitEnum) {
+			$value = $value->value;
+		}
+
 		return in_array($value, $this->allowedValues, true);
 	}
 
 	/**
 	 * @inheritDoc
+	 * @codeCoverageIgnore
 	 */
 	public function message()
 	{

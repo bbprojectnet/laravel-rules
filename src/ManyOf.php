@@ -24,6 +24,7 @@ class ManyOf implements Rule
 	 * Create a new rule instance
 	 *
 	 * @param \Illuminate\Contracts\Validation\Rule $rule
+	 * @return void
 	 */
 	public function __construct(
 		protected Rule $rule,
@@ -50,7 +51,7 @@ class ManyOf implements Rule
 	 * @param string $trim
 	 * @return static
 	 */
-	public function trim(bool $trim): static
+	public function trim(bool $trim = true): static
 	{
 		$this->trim = $trim;
 

@@ -17,5 +17,16 @@
 		"psr-4": {
 			"BBProjectNet\\LaravelRules\\": "src/"
 		}
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^9.5"
+	},
+	"scripts": {
+		"test": [
+			"phpunit"
+		],
+		"pre-commit": [
+			"@test"
+		]
 	}
 }
