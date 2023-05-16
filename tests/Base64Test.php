@@ -13,6 +13,9 @@ class Base64Test extends TestCase
 			'empty string' => ['', true],
 			'base64 string' => ['Y29udGVudA==', true],
 			'invalid base64 string' => ['Y29udGVudA=', false],
+			'invalid ending base64 string' => ['Y29udGVudA======', false],
+			'string with special characters' => ['fmAtPV8rW11ce318Oyc6IiwuLzw+PyFAIyQlXiYqKCk=', true],
+			'very long string' => [base64_encode(str_repeat('x', 100000)), true],
 		];
 	}
 

@@ -15,7 +15,7 @@ class Base64 implements Rule
 			return false;
 		}
 
-		return (bool)preg_match('/^(?:[a-zA-Z0-9+\/]{4})*(?:|(?:[a-zA-Z0-9+\/]{3}=)|(?:[a-zA-Z0-9+\/]{2}==)|(?:[a-zA-Z0-9+\/]{1}===))$/', $value);
+		return strlen($value) % 4 === 0 && preg_match('/^(?>[a-zA-Z0-9+\/]*)={0,3}$/', $value);
 	}
 
 	/**
